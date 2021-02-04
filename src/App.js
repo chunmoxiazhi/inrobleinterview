@@ -3,7 +3,7 @@ import InfoStep from './containers/InfoStep';
 import './App.css';
 
 const INIT_DETAILS = {
-
+  newVehicle: {}
 };
 
 const RegisteredVehiclesFromBackend = [
@@ -31,6 +31,7 @@ function App() {
             details={details}
             onChangeDetail={onChangeDetail}
             registeredVehicles={RegisteredVehiclesFromBackend}
+            stepIndex={stepIndex}
             setStepIndex={setStepIndex}
           />
         );

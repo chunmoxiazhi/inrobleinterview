@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import StepLayout from '../layouts/StepLayout';
 
 const styles = {
@@ -10,13 +10,19 @@ const styles = {
   },
   inputContainer: {
     display: 'flex',
-    width: '100%'
+    width: '100%',
+    justifyContent: 'space-between'
   },
   commonInput: {
     width: '100%',
   },
   nameInput: {
-    width: '50%'
+    width: '48%'
+  },
+  addInput: {
+    width: '30%',
+    display: 'flex',
+    flexDirection: 'column'
   }
 }
 
@@ -24,8 +30,10 @@ export default function InfoStep({
   details,
   onChangeDetail,
   registeredVehicles,
+  stepIndex,
   setStepIndex
 }) {
+  const [isAddNew, setIsAddNew] = useState(false);
 
   const getFields = () => (
     <section>
@@ -80,12 +88,55 @@ export default function InfoStep({
             onChange={(e) => onChangeDetail('vehicle', e.target.value)}
           >
             {registeredVehicles.map(registeredVehicle => (
-              <option value={registeredVehicle.id}>
+              <option key={registeredVehicle.id} value={registeredVehicle.id}>
                 {registeredVehicle.name}
               </option>
             ))}
           </select>
         </div>
+      </div>
+      <div style={styles.fieldContainer}>
+        {
+          isAddNew ? (
+            <div style={styles.inputContainer}>
+              <div style={styles.addInput}>
+                <label>Vehicle Year</label>
+                <input
+                  type='text'
+                  value={details.newVehicle.year}
+                  placeholder='Vehicle Year'
+                  onChange={(e) => onChangeDetail(
+                    'newVehicle', { ...details.newVehicle, year: e.target.value })
+                  }
+                />
+              </div>
+              <div style={styles.addInput}>
+                <label>Vehicle Make</label>
+                <input
+                  type='text'
+                  value={details.newVehicle.make}
+                  placeholder='Yehicle Make'
+                  onChange={(e) => onChangeDetail(
+                    'newVehicle', { ...details.newVehicle, make: e.target.value })
+                  }
+                />
+              </div>
+              <div style={styles.addInput}>
+                <label>Vehicle Model</label>
+                <input
+                  type='text'
+                  value={details.newVehicle.model}
+                  placeholder='Yehicle Model'
+                  onChange={(e) => onChangeDetail(
+                    'newVehicle', { ...details.newVehicle, model: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+          ) : (
+            <button onClick={() => setIsAddNew(true)}>+ Add New</button>
+          )
+        }
       </div>
     </section>
   )
@@ -93,7 +144,8 @@ export default function InfoStep({
   return (
     <StepLayout
       title="Start a Booking"
-      goNext={() => setStepIndex(1)}
+      stepIndex={stepIndex}
+      setStepIndex={setStepIndex}
     >
       <section>
         {getFields()}
