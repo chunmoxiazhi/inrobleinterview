@@ -1,23 +1,47 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import InfoStep from './containers/InfoStep';
 import './App.css';
 
+const INIT_DETAILS = {
+
+};
+
+const RegisteredVehiclesFromBackend = [
+  { id: 1, name: 'vehicle 1' },
+  { id: 2, name: 'vehicle 2' },
+  { id: 3, name: 'vehicle 3' }
+];
+
 function App() {
+  const [details, setDetails] = useState(INIT_DETAILS);
+  const [stepIndex, setStepIndex] = useState(0);
+
+  const onChangeDetail = (name, value) => {
+    const newDetails = { ...details };
+    newDetails[name] = value;
+    setDetails(newDetails);
+  }
+
+  const getStepContainer = () => {
+    switch (stepIndex) {
+      case 0:
+      default:
+        return (
+          <InfoStep
+            details={details}
+            onChangeDetail={onChangeDetail}
+            registeredVehicles={RegisteredVehiclesFromBackend}
+            setStepIndex={setStepIndex}
+          />
+        );
+    }
+  }
+  
+  const stepContainer = getStepContainer();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {stepContainer}
     </div>
   );
 }
