@@ -96,12 +96,19 @@ export default function StepLayout ({
         {children}
       </div>
       <div style={styles.actionContainer}>
-        <div />
+        {stepIndex !== 0 ? (
+          <button
+            style={styles.button}
+            onClick={() => setStepIndex(stepIndex - 1)}
+          >
+            {'<'}
+          </button>
+        ) : <div />}
         <button
           style={styles.button}
           onClick={() => setStepIndex(stepIndex + 1)}
         >
-          >
+          {'>'}
         </button>
       </div>
     </section>

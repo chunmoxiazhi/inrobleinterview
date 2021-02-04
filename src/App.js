@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import InfoStep from './containers/InfoStep';
+import ServiceStep from './containers/ServiceStep';
 import './App.css';
 
 const INIT_DETAILS = {
-  newVehicle: {}
+  newVehicle: {},
+  services: [],
+  isWait: true
 };
 
 const RegisteredVehiclesFromBackend = [
@@ -24,8 +27,17 @@ function App() {
 
   const getStepContainer = () => {
     switch (stepIndex) {
+      case 1:
+        return (
+          <ServiceStep
+            details={details}
+            onChangeDetail={onChangeDetail}
+            registeredVehicles={RegisteredVehiclesFromBackend}
+            stepIndex={stepIndex}
+            setStepIndex={setStepIndex}
+          />
+        );
       case 0:
-      default:
         return (
           <InfoStep
             details={details}
@@ -35,6 +47,8 @@ function App() {
             setStepIndex={setStepIndex}
           />
         );
+      default:
+        return <div>No such step</div>;
     }
   }
   
